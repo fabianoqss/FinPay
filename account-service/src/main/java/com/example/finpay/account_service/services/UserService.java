@@ -5,10 +5,12 @@ import com.example.finpay.account_service.dto.UserResponse;
 import com.example.finpay.account_service.entities.User;
 import com.example.finpay.account_service.enums.UserStatus;
 import com.example.finpay.account_service.repositories.UserRepository;
+import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,6 +18,14 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    public UserResponse findById(String id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+        return UserResponse.from(user);
+    }
+
+
 
 
     public UserResponse createUser(UserRequest userRequest){
@@ -32,7 +42,6 @@ public class UserService {
 
         return UserResponse.from(savedUser);
     }
-
 
 
 
