@@ -1,10 +1,11 @@
 package com.example.finpay.account_service.controllers;
 
 
+import com.example.finpay.account_service.dto.UserResponse;
 import com.example.finpay.account_service.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,6 +15,16 @@ public class UserController {
     private final UserService userService;
 
 
-    
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserResponse> findById(@PathVariable String id){
+        UserResponse userResponse = userService.findById(id);
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<UserResponse> findByEmail(@RequestParam String email){
+        UserResponse userResponse = userService.findByEmail(email);
+        return ResponseEntity.ok(userResponse);
+    }
 
 }
