@@ -61,8 +61,6 @@ public class UserService {
     }
 
 
-
-
     public void blockUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));

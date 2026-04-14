@@ -1,6 +1,6 @@
 # FinPay + FinBot 💳🤖
 
-> Plataforma de pagamentos com microsserviços e assistente financeiro com Inteligência Artificial — construída com Java 21, Spring Boot 4 e Azure Cloud.
+> A payments platform built with microservices and an AI-powered financial assistant — developed with Java 21, Spring Boot 4 and Azure Cloud.
 
 [![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.4-brightgreen?style=flat-square&logo=springboot)](https://spring.io/projects/spring-boot)
@@ -9,56 +9,56 @@
 
 ---
 
-## 📋 Índice
+## 📋 Table of Contents
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [O que o sistema faz](#-o-que-o-sistema-faz)
-- [Arquitetura](#-arquitetura)
-- [Microsserviços](#-microsserviços)
-- [Tecnologias](#-tecnologias)
-- [Serviços Azure](#-serviços-azure)
-- [Pré-requisitos](#-pré-requisitos)
-- [Como rodar localmente](#-como-rodar-localmente)
-- [Variáveis de ambiente](#-variáveis-de-ambiente)
+- [About the Project](#-about-the-project)
+- [What the System Does](#-what-the-system-does)
+- [Architecture](#-architecture)
+- [Microservices](#-microservices)
+- [Technologies](#-technologies)
+- [Azure Services](#-azure-services)
+- [Prerequisites](#-prerequisites)
+- [Running Locally](#-running-locally)
+- [Environment Variables](#-environment-variables)
 - [Endpoints](#-endpoints)
 - [Roadmap](#-roadmap)
-- [Autor](#-autor)
+- [Author](#-author)
 
 ---
 
-## 📖 Sobre o Projeto
+## 📖 About the Project
 
-O **FinPay** é uma plataforma de pagamentos simulada construída com arquitetura de microsserviços, comunicação assíncrona via mensageria e inteligência artificial conversacional. O projeto foi desenvolvido como estudo prático para a certificação **Microsoft AI-200 (Azure AI Cloud Developer Associate)** e demonstra padrões de arquitetura utilizados em fintechs e bancos digitais do mercado brasileiro.
+**FinPay** is a simulated payments platform built with a microservices architecture, asynchronous messaging and conversational artificial intelligence. The project was developed as a hands-on study for the **Microsoft AI-200 (Azure AI Cloud Developer Associate)** certification and demonstrates architecture patterns used by fintechs and digital banks in the Brazilian market.
 
-O **FinBot** é o assistente financeiro com IA integrado à plataforma — um chatbot que consulta dados reais de transações do usuário usando **Azure OpenAI GPT-4o** com **function calling** e **RAG (Retrieval-Augmented Generation)**.
+**FinBot** is the AI-powered financial assistant integrated into the platform — a chatbot that queries real user transaction data using **Azure OpenAI GPT-4o** with **function calling** and **RAG (Retrieval-Augmented Generation)**.
 
-### Destaques técnicos
+### Technical Highlights
 
-- Arquitetura orientada a eventos com **Azure Service Bus** e **Event Grid**
-- Garantia de idempotência em pagamentos via **Azure Cache for Redis**
-- Reprocessamento automático de falhas com **dead-letter queue**
-- Chatbot com **function calling** — o GPT decide autonomamente quando consultar o banco
-- Pipeline **RAG** com embeddings vetoriais e busca semântica no **Azure AI Search**
-- Segurança production-grade com **Key Vault** e **Managed Identity** — zero credenciais em código
-- Observabilidade completa com rastreamento distribuído via **Application Insights**
-
----
-
-## 💡 O que o sistema faz
-
-Um usuário autenticado pode:
-
-- Criar uma conta digital e consultar seu saldo
-- Realizar transferências entre contas com validação em tempo real
-- Consultar histórico de transações com filtros por período e categoria
-- Receber notificações de confirmação ou falha de cada operação
-- Conversar com o **FinBot**: *"Quanto gastei em restaurantes esse mês?"*
-- Obter análises automáticas: comparativos mensais, categorias com maior gasto
-- Receber dicas financeiras personalizadas com base no perfil de gastos
+- Event-driven architecture with **Azure Service Bus** and **Event Grid**
+- Payment idempotency guaranteed via **Azure Cache for Redis**
+- Automatic failure reprocessing with **dead-letter queue**
+- Chatbot with **function calling** — GPT autonomously decides when to query the database
+- **RAG pipeline** with vector embeddings and semantic search on **Azure AI Search**
+- Production-grade security with **Key Vault** and **Managed Identity** — zero credentials in code
+- Full observability with distributed tracing via **Application Insights**
 
 ---
 
-## 🏗️ Arquitetura
+## 💡 What the System Does
+
+An authenticated user can:
+
+- Create a digital account and check their balance
+- Make transfers between accounts with real-time validation
+- View transaction history filtered by period and category
+- Receive confirmation or failure notifications for each operation
+- Chat with **FinBot**: *"How much did I spend on restaurants this month?"*
+- Get automatic analysis: monthly comparisons, top spending categories, trends
+- Receive personalized financial tips based on spending profile
+
+---
+
+## 🏗️ Architecture
 
 ```
                           ┌─────────────────┐
@@ -70,7 +70,7 @@ Um usuário autenticado pode:
               │                    │                    │
     ┌─────────▼──────┐  ┌──────────▼─────┐  ┌──────────▼─────┐
     │ Account Service│  │Payment Service │  │  Chat Service  │
-    │   (porta 8081) │  │  (porta 8082)  │  │  (porta 8085)  │
+    │  (port 8081)   │  │  (port 8082)   │  │  (port 8085)   │
     └─────────┬──────┘  └──────────┬─────┘  └──────────┬─────┘
               │                    │                    │
               │           ┌────────▼────────┐           │
@@ -82,8 +82,8 @@ Um usuário autenticado pode:
               │         │                     │         │
     ┌─────────▼──────┐  ▼               ┌─────▼──────┐  │
     │  Cosmos DB     │ Notification      │Audit Service│  │
-    │  (NoSQL)       │ Service           │ (porta 8084)│  │
-    └────────────────┘ (porta 8083)      └────────────┘  │
+    │  (NoSQL)       │ Service           │ (port 8084) │  │
+    └────────────────┘ (port 8083)       └────────────┘  │
                                                           │
                               ┌───────────────────────────┘
                               │
@@ -95,97 +95,103 @@ Um usuário autenticado pode:
 
 ---
 
-## 🔧 Microsserviços
+## 🔧 Microservices
 
-| Serviço | Porta | Responsabilidade | Status |
+| Service | Port | Responsibility | Status |
 |---|---|---|---|
-| **account-service** | 8081 | Usuários, contas e histórico de transações | 🚧 Em desenvolvimento |
-| **payment-service** | 8082 | Processamento de transferências e idempotência | 📋 Planejado |
-| **notification-service** | 8083 | Notificações de confirmação e falha | 📋 Planejado |
-| **audit-service** | 8084 | Registro imutável de operações para compliance | 📋 Planejado |
-| **chat-service** | 8085 | FinBot — chatbot financeiro com Azure OpenAI | 📋 Planejado |
+| **account-service** | 8081 | Users, accounts and transaction history | 🚧 In development |
+| **payment-service** | 8082 | Transfer processing and idempotency | 📋 Planned |
+| **notification-service** | 8083 | Confirmation and failure notifications | 📋 Planned |
+| **audit-service** | 8084 | Immutable operation records for compliance | 📋 Planned |
+| **chat-service** | 8085 | FinBot — financial chatbot with Azure OpenAI | 📋 Planned |
 
 ---
 
-## 🛠️ Tecnologias
+## 🛠️ Technologies
 
-| Tecnologia | Versão | Uso |
+| Technology | Version | Usage |
 |---|---|---|
-| Java | 21 (LTS) | Linguagem principal |
-| Spring Boot | 4.0.4 | Framework base |
-| Spring Web | Incluso | APIs REST |
-| Spring Security | Incluso | Autenticação e autorização |
-| Spring Data Cosmos | Incluso | Acesso ao Cosmos DB |
-| Spring AI | 1.0.0 | Integração com Azure OpenAI e RAG |
-| Spring WebFlux | Incluso | Streaming de respostas do chatbot |
-| Lombok | Incluso | Redução de boilerplate |
-| Maven | 3.9+ | Build e dependências |
+| Java | 21 (LTS) | Main language |
+| Spring Boot | 4.0.4 | Base framework |
+| Spring Web | Included | REST APIs |
+| Spring Security | Included | Authentication and authorization |
+| Spring Data Cosmos | Included | Cosmos DB access |
+| Spring AI | 1.0.0 | Azure OpenAI and RAG integration |
+| Spring WebFlux | Included | Chatbot response streaming |
+| Lombok | Included | Boilerplate reduction |
+| Maven | 3.9+ | Build and dependency management |
 
 ---
 
-## ☁️ Serviços Azure
+## ☁️ Azure Services
 
-| Serviço | Uso no Projeto |
+| Service | Usage in the Project |
 |---|---|
-| **Azure App Service** | Hospedagem dos microsserviços |
-| **Azure Functions** | Processamento assíncrono de jobs |
-| **Azure Cosmos DB** | Banco NoSQL — contas, transações e histórico de chat |
-| **Azure Service Bus** | Mensageria entre microsserviços |
-| **Azure Event Grid** | Publicação de eventos de notificação |
-| **Azure Cache for Redis** | Idempotência de pagamentos e sessão do chatbot |
-| **Azure API Management** | Gateway com autenticação JWT e rate limiting |
-| **Azure Key Vault** | Gerenciamento de secrets e certificados |
-| **Azure OpenAI** | GPT-4o para o FinBot |
-| **Azure AI Search** | Índice vetorial para pipeline RAG |
-| **Application Insights** | Observabilidade e rastreamento distribuído |
+| **Azure App Service** | Microservices hosting |
+| **Azure Functions** | Asynchronous job processing |
+| **Azure Cosmos DB** | NoSQL database — accounts, transactions and chat history |
+| **Azure Service Bus** | Messaging between microservices |
+| **Azure Event Grid** | Notification event publishing |
+| **Azure Cache for Redis** | Payment idempotency and chatbot session |
+| **Azure API Management** | Gateway with JWT authentication and rate limiting |
+| **Azure Key Vault** | Secrets and certificate management |
+| **Azure OpenAI** | GPT-4o for FinBot |
+| **Azure AI Search** | Vector index for RAG pipeline |
+| **Application Insights** | Observability and distributed tracing |
 
 ---
 
-## ✅ Pré-requisitos
+## ✅ Prerequisites
 
-Antes de rodar o projeto, certifique-se de ter instalado:
+Before running the project, make sure you have installed:
 
 - [Java 21](https://www.oracle.com/java/technologies/downloads/)
 - [Maven 3.9+](https://maven.apache.org/download.cgi)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
-- [Docker](https://www.docker.com/products/docker-desktop/) (opcional — para Redis local)
-- Conta Azure com crédito ativo
+- [Docker](https://www.docker.com/products/docker-desktop/) — for the Cosmos DB emulator
+- Active Azure account with credits
 
 ---
 
-## 🚀 Como rodar localmente
+## 🚀 Running Locally
 
-### 1. Clone o repositório
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/fabianoqss/FinPay.git
 cd FinPay
 ```
 
-### 2. Autentique no Azure
+### 2. Start the Cosmos DB emulator
+
+```bash
+docker-compose up -d
+```
+
+### 3. Authenticate with Azure
 
 ```bash
 az login
 ```
 
-### 3. Configure as variáveis de ambiente
+### 4. Configure environment variables
 
-Crie um arquivo `.env` na raiz do serviço (veja a seção [Variáveis de ambiente](#-variáveis-de-ambiente)).
+Create an `application.yml` file in the service root (see [Environment Variables](#-environment-variables)).
 
-### 4. Rode o Account Service
+### 5. Run the Account Service
 
 ```bash
 cd account-service
 mvn spring-boot:run
 ```
 
-### 5. Verifique o health check
+### 6. Check the health endpoint
 
 ```bash
 curl http://localhost:8081/actuator/health
 ```
 
-Resposta esperada:
+Expected response:
 ```json
 {
   "status": "UP"
@@ -194,9 +200,9 @@ Resposta esperada:
 
 ---
 
-## 🔐 Variáveis de ambiente
+## 🔐 Environment Variables
 
-Crie um arquivo `application.yml` local ou configure as seguintes variáveis:
+Configure the following variables in your `application.yml`:
 
 ```yaml
 spring:
@@ -221,7 +227,21 @@ spring:
       password: ${REDIS_PASSWORD}
 ```
 
-> ⚠️ **Nunca** commite credenciais reais no repositório. Em produção, todas as secrets são gerenciadas pelo **Azure Key Vault** com **Managed Identity**.
+> ⚠️ **Never** commit real credentials to the repository. In production, all secrets are managed by **Azure Key Vault** with **Managed Identity**.
+
+### Local development (Cosmos DB emulator)
+
+```yaml
+spring:
+  cloud:
+    azure:
+      cosmos:
+        endpoint: https://localhost:8081
+        key: C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMcZcLU/zBJ8S4=
+        database: finpay
+        connection-mode: gateway
+        disable-ssl-verification: true
+```
 
 ---
 
@@ -229,40 +249,40 @@ spring:
 
 ### Account Service — `http://localhost:8081`
 
-| Método | Endpoint | Descrição |
+| Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/users` | Cadastra um novo usuário |
-| `GET` | `/users/{id}` | Busca dados do usuário |
-| `POST` | `/users/{id}/accounts` | Cria conta financeira para o usuário |
-| `GET` | `/users/{id}/accounts/{accountId}` | Dados da conta |
-| `GET` | `/users/{id}/accounts/{accountId}/balance` | Consulta saldo |
-| `GET` | `/users/{id}/accounts/{accountId}/transactions` | Histórico de transações |
+| `POST` | `/users` | Register a new user |
+| `GET` | `/users/{id}` | Get user data |
+| `POST` | `/users/{id}/accounts` | Create a financial account for the user |
+| `GET` | `/users/{id}/accounts/{accountId}` | Get account details |
+| `GET` | `/users/{id}/accounts/{accountId}/balance` | Check balance |
+| `GET` | `/users/{id}/accounts/{accountId}/transactions` | Transaction history |
 
-### Chat Service — `http://localhost:8085` *(em breve)*
+### Chat Service — `http://localhost:8085` *(coming soon)*
 
-| Método | Endpoint | Descrição |
+| Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/chat` | Envia mensagem para o FinBot (streaming SSE) |
-| `GET` | `/chat/history` | Histórico de conversas |
+| `POST` | `/chat` | Send a message to FinBot (SSE streaming) |
+| `GET` | `/chat/history` | Conversation history |
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] Estrutura base do projeto
-- [x] Account Service — entidades e configuração
-- [ ] Account Service — endpoints completos
-- [ ] Payment Service — transferências com idempotência
-- [ ] Notification Service — eventos e notificações
-- [ ] Audit Service — registro imutável
-- [ ] Chat Service — FinBot com function calling
-- [ ] Pipeline RAG com Azure AI Search
-- [ ] CI/CD com GitHub Actions
-- [ ] Deploy completo no Azure App Service
+- [x] Project base structure
+- [x] Account Service — entities and configuration
+- [ ] Account Service — complete endpoints
+- [ ] Payment Service — transfers with idempotency
+- [ ] Notification Service — events and notifications
+- [ ] Audit Service — immutable records
+- [ ] Chat Service — FinBot with function calling
+- [ ] RAG pipeline with Azure AI Search
+- [ ] CI/CD with GitHub Actions
+- [ ] Full deployment to Azure App Service
 
 ---
 
-## 👤 Autor
+## 👤 Author
 
 **Fabiano Quirino da Silva**
 
@@ -270,10 +290,10 @@ spring:
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-> Projeto desenvolvido como estudo prático para a certificação **Microsoft AI-200 — Azure AI Cloud Developer Associate** 🚀
+> Project developed as a hands-on study for the **Microsoft AI-200 — Azure AI Cloud Developer Associate** certification 🚀
