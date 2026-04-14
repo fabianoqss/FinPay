@@ -1,0 +1,40 @@
+package com.example.finpay.account_service.services;
+
+import com.example.finpay.account_service.dto.UserRequest;
+import com.example.finpay.account_service.dto.UserResponse;
+import com.example.finpay.account_service.entities.User;
+import com.example.finpay.account_service.enums.UserStatus;
+import com.example.finpay.account_service.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+
+
+    public UserResponse createUser(UserRequest userRequest){
+        User user = User.builder().id(UUID.randomUUID().toString())
+                .email(userRequest.email())
+                .name(userRequest.name())
+                .cpf(userRequest.cpf())
+                .status(UserStatus.ACTIVE)
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        return UserResponse.from(savedUser);
+    }
+
+
+
+
+
+}

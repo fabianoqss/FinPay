@@ -3,6 +3,7 @@ package com.example.finpay.account_service.entities;
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import com.example.finpay.account_service.enums.AccountStatus;
+import com.example.finpay.account_service.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +27,7 @@ public class User {
 
     private String name;
     private String cpf;
-    private AccountStatus status;
+    private UserStatus status;
     private Instant createdAt;
     private Instant updatedAt;
-
-
 }
