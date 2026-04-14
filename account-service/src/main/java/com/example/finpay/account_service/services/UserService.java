@@ -1,5 +1,6 @@
 package com.example.finpay.account_service.services;
 
+import com.example.finpay.account_service.dto.UpdateUserRequest;
 import com.example.finpay.account_service.dto.UserRequest;
 import com.example.finpay.account_service.dto.UserResponse;
 import com.example.finpay.account_service.entities.User;
@@ -24,8 +25,25 @@ public class UserService {
         return UserResponse.from(user);
     }
 
+    public UserResponse findByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
 
+        return UserResponse.from(user);
+    }
 
+    public UserResponse updateUser(String id, UpdateUserRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        user.setName(request.name());
+        user.setEmail(request.email());
+        user.setUpdatedAt(Instant.now());
+
+        User updatedUser = userRepository.save(user);
+
+        return UserResponse.from(updatedUser);
+    }
 
     public UserResponse createUser(UserRequest userRequest){
         User user = User.builder().id(UUID.randomUUID().toString())
@@ -41,6 +59,7 @@ public class UserService {
 
         return UserResponse.from(savedUser);
     }
+
 
 
 
