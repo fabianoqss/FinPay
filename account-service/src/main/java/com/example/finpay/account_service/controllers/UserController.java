@@ -26,5 +26,18 @@ public class UserController {
         UserResponse userResponse = userService.findByEmail(email);
         return ResponseEntity.ok(userResponse);
     }
+    
 
+
+    @PatchMapping("/{id}/block")
+    public ResponseEntity<Void> blockUser(@PathVariable String id) {
+        userService.blockUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<Void> activateUser(@PathVariable String id) {
+        userService.activateUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }
