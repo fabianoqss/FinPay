@@ -3,6 +3,7 @@ package com.example.finpay.account_service.services;
 
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
+import com.example.finpay.account_service.dto.account.BalanceResponse;
 import com.example.finpay.account_service.entities.Account;
 import com.example.finpay.account_service.enums.AccountStatus;
 import com.example.finpay.account_service.repositories.AccountRepository;
@@ -60,7 +61,12 @@ public class AccountService {
                 .map(AccountResponse::from)
                 .toList();
     }
+/*
+    public BalanceResponse getBalance(String accountId) {
 
+    }
+
+ */
 
     public void blockAccount(String accountId) {
         Account account = accountRepository.findById(accountId)
