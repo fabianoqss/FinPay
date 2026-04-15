@@ -3,6 +3,7 @@ package com.example.finpay.account_service.services;
 
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
+import com.example.finpay.account_service.dto.account.BalanceResponse;
 import com.example.finpay.account_service.entities.Account;
 import com.example.finpay.account_service.enums.AccountStatus;
 import com.example.finpay.account_service.repositories.AccountRepository;
@@ -13,9 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -60,12 +63,21 @@ public class AccountService {
                 .map(AccountResponse::from)
                 .toList();
     }
-/*
     public BalanceResponse getBalance(String accountId) {
+        String cacheKey = "balance:" + accountId;
 
+        BigDecimal cached = (BigDecimal) redisTemplate.opsForValue().get(cacheKey);
+        if (cached != null) {
+            return new BalanceResponse(accountId, cached, Instant.now());
+        }
+
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
+
+        redisTemplate.opsForValue().set(cacheKey, account.getBalance(), 5, TimeUnit.MINUTES);
+
+        return new BalanceResponse(accountId, account.getBalance(), Instant.now());
     }
-
- */
 
     public void blockAccount(String accountId) {
         Account account = accountRepository.findById(accountId)

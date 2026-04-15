@@ -3,6 +3,7 @@ package com.example.finpay.account_service.controllers;
 
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
+import com.example.finpay.account_service.dto.account.BalanceResponse;
 import com.example.finpay.account_service.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/accounts")
+@RequestMapping(value = "/api/users/{userId}/accounts")
 @Tag(name = "Accounts", description = "Account management operations")
 public class AccountController {
 
@@ -28,21 +29,9 @@ public class AccountController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PostMapping
-    public ResponseEntity<AccountResponse> createAccount(String userId, AccountRequest accountRequest){
+    public ResponseEntity<AccountResponse> createAccount(@PathVariable String userId, AccountRequest accountRequest){
         AccountResponse response = accountService.createAccount(userId, accountRequest);
-
         return ResponseEntity.ok().body(response);
-    }
-
-    @Operation(summary = "Get account by ID", description = "Returns a single account by its ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Account found"),
-            @ApiResponse(responseCode = "404", description = "Account not found")
-    })
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<AccountResponse> findById(@PathVariable String id) {
-        AccountResponse response = accountService.findById(id);
-        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "List accounts by user", description = "Returns all accounts belonging to the given user")
@@ -50,9 +39,31 @@ public class AccountController {
             @ApiResponse(responseCode = "200", description = "Accounts listed successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @GetMapping(value = "/user/{userId}")
+    @GetMapping
     public ResponseEntity<List<AccountResponse>> findAllByUserId(@PathVariable String userId) {
         List<AccountResponse> response = accountService.findAllByUserId(userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Get account by ID", description = "Returns a single account by its ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Account found"),
+            @ApiResponse(responseCode = "404", description = "Account not found")
+    })
+    @GetMapping(value = "/{accountId}")
+    public ResponseEntity<AccountResponse> findById(@PathVariable String accountId) {
+        AccountResponse response = accountService.findById(accountId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Get account balance", description = "Returns the current balance of the account")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Balance retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Account not found")
+    })
+    @GetMapping(value = "/{accountId}/balance")
+    public ResponseEntity<BalanceResponse> getBalance(@PathVariable String accountId) {
+        BalanceResponse response = accountService.getBalance(accountId);
         return ResponseEntity.ok(response);
     }
 
@@ -61,9 +72,9 @@ public class AccountController {
             @ApiResponse(responseCode = "204", description = "Account blocked successfully"),
             @ApiResponse(responseCode = "404", description = "Account not found")
     })
-    @PatchMapping(value = "/{id}/block")
-    public ResponseEntity<Void> blockAccount(@PathVariable String id) {
-        accountService.blockAccount(id);
+    @PatchMapping(value = "/{accountId}/block")
+    public ResponseEntity<Void> blockAccount(@PathVariable String accountId) {
+        accountService.blockAccount(accountId);
         return ResponseEntity.noContent().build();
     }
 
@@ -72,9 +83,9 @@ public class AccountController {
             @ApiResponse(responseCode = "204", description = "Account activated successfully"),
             @ApiResponse(responseCode = "404", description = "Account not found")
     })
-    @PatchMapping(value = "/{id}/activate")
-    public ResponseEntity<Void> activateAccount(@PathVariable String id) {
-        accountService.activateAccount(id);
+    @PatchMapping(value = "/{accountId}/activate")
+    public ResponseEntity<Void> activateAccount(@PathVariable String accountId) {
+        accountService.activateAccount(accountId);
         return ResponseEntity.noContent().build();
     }
 
