@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    azure:
+      cosmos:
+        endpoint: YOUR_COSMOS_ENDPOINT
+        key: YOUR_COSMOS_KEY
+        database: finpay
+        populate-query-metrics: false
+
+server:
+  port: 8081

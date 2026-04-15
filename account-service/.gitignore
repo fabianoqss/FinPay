@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Credentials & Environment ###
+**/src/main/resources/application.yml
+**/src/main/resources/application-*.yml
+*.env
+.env
