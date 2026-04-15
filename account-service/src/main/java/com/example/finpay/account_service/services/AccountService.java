@@ -3,7 +3,6 @@ package com.example.finpay.account_service.services;
 
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
-import com.example.finpay.account_service.dto.account.BalanceResponse;
 import com.example.finpay.account_service.entities.Account;
 import com.example.finpay.account_service.enums.AccountStatus;
 import com.example.finpay.account_service.repositories.AccountRepository;
