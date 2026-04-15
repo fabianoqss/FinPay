@@ -4,7 +4,10 @@ package com.example.finpay.account_service.services;
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
 import com.example.finpay.account_service.dto.account.BalanceResponse;
+import com.example.finpay.account_service.dto.account.UserWithAccountsResponse;
+import com.example.finpay.account_service.dto.user.UserResponse;
 import com.example.finpay.account_service.entities.Account;
+import com.example.finpay.account_service.entities.User;
 import com.example.finpay.account_service.enums.AccountStatus;
 import com.example.finpay.account_service.repositories.AccountRepository;
 import com.example.finpay.account_service.repositories.UserRepository;
@@ -63,6 +66,19 @@ public class AccountService {
                 .map(AccountResponse::from)
                 .toList();
     }
+
+    public UserWithAccountsResponse findUserWithAccounts(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        List<Account> accounts = accountRepository.findByUserId(userId);
+
+        return new UserWithAccountsResponse(
+                UserResponse.from(user),
+                accounts.stream().map(AccountResponse::from).toList()
+        );
+    }
+
     public BalanceResponse getBalance(String accountId) {
         String cacheKey = "balance:" + accountId;
 

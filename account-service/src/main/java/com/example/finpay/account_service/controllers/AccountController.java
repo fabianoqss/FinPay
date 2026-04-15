@@ -4,12 +4,16 @@ package com.example.finpay.account_service.controllers;
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
 import com.example.finpay.account_service.dto.account.BalanceResponse;
+import com.example.finpay.account_service.dto.account.UserWithAccountsResponse;
 import com.example.finpay.account_service.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +29,13 @@ public class AccountController {
 
     @Operation(summary = "Create a new account", description = "Creates a financial account linked to an existing user")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Account created successfully"),
+            @ApiResponse(responseCode = "201", description = "Account created successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PostMapping
-    public ResponseEntity<AccountResponse> createAccount(@PathVariable String userId, AccountRequest accountRequest){
+    public ResponseEntity<AccountResponse> createAccount(@PathVariable String userId, @RequestBody @Valid AccountRequest accountRequest){
         AccountResponse response = accountService.createAccount(userId, accountRequest);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Operation(summary = "List accounts by user", description = "Returns all accounts belonging to the given user")
@@ -53,6 +57,20 @@ public class AccountController {
     @GetMapping(value = "/{accountId}")
     public ResponseEntity<AccountResponse> findById(@PathVariable String accountId) {
         AccountResponse response = accountService.findById(accountId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(    summary = "Get user with accounts",
+            description = "Returns a single user with all their accounts")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Account found"),
+            @ApiResponse(responseCode = "404", description = "Account not found")
+    })
+    @GetMapping("/with-accounts")
+    public ResponseEntity<UserWithAccountsResponse> findUserWithAccounts(
+            @PathVariable @Parameter(description = "User ID", required = true)
+            String userId) {
+        UserWithAccountsResponse response = accountService.findUserWithAccounts(userId);
         return ResponseEntity.ok(response);
     }
 

@@ -29,7 +29,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(UserRequest userRequest){
+    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest){
         UserResponse userResponse = userService.createUser(userRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
