@@ -7,12 +7,14 @@ import com.example.finpay.account_service.entities.Account;
 import com.example.finpay.account_service.enums.AccountStatus;
 import com.example.finpay.account_service.repositories.AccountRepository;
 import com.example.finpay.account_service.repositories.UserRepository;
+import com.example.finpay.account_service.services.exceptions.AccountNotFoundExcepetion;
 import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -42,6 +44,21 @@ public class AccountService {
         return AccountResponse.from(savedAccount);
     }
 
+    public AccountResponse findById(String accountId){
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundExcepetion(accountId));
 
+        return AccountResponse.from(account);
+    }
+
+    public List<AccountResponse> findAllByUserId(String userId){
+        userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        return accountRepository.findByUserId(userId)
+                .stream()
+                .map(AccountResponse::from)
+                .toList();
+    }
 
 }
