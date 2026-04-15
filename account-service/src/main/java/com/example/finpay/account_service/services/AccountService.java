@@ -7,7 +7,7 @@ import com.example.finpay.account_service.entities.Account;
 import com.example.finpay.account_service.enums.AccountStatus;
 import com.example.finpay.account_service.repositories.AccountRepository;
 import com.example.finpay.account_service.repositories.UserRepository;
-import com.example.finpay.account_service.services.exceptions.AccountNotFoundExcepetion;
+import com.example.finpay.account_service.services.exceptions.AccountNotFoundException;
 import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -46,7 +46,7 @@ public class AccountService {
 
     public AccountResponse findById(String accountId){
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundExcepetion(accountId));
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
 
         return AccountResponse.from(account);
     }
@@ -61,4 +61,22 @@ public class AccountService {
                 .toList();
     }
 
+
+    public void blockAccount(String accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
+
+        account.setStatus(AccountStatus.BLOCKED);
+        account.setUpdatedAt(Instant.now());
+        accountRepository.save(account);
+    }
+
+    public void activateAccount(String accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
+
+        account.setStatus(AccountStatus.ACTIVE);
+        account.setUpdatedAt(Instant.now());
+        accountRepository.save(account);
+    }
 }
