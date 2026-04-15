@@ -1,6 +1,6 @@
 package com.example.finpay.account_service.controllers.handlers;
 
-import com.example.finpay.account_service.dto.ErrorResponse;
+import com.example.finpay.account_service.dto.user.ErrorResponse;
 import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

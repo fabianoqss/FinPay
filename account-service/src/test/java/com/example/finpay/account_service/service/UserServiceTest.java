@@ -1,7 +1,7 @@
 package com.example.finpay.account_service.service;
 
-import com.example.finpay.account_service.dto.UserRequest;
-import com.example.finpay.account_service.dto.UserResponse;
+import com.example.finpay.account_service.dto.user.UserRequest;
+import com.example.finpay.account_service.dto.user.UserResponse;
 import com.example.finpay.account_service.entities.User;
 import com.example.finpay.account_service.enums.UserStatus;
 import com.example.finpay.account_service.repositories.UserRepository;
@@ -63,7 +63,7 @@ public class UserServiceTest {
         when(repository.save(any())).thenAnswer(i -> i.getArgument(0));
 
         userService.blockUser("usr-123");
-        
+
         verify(repository).save(argThat(u -> u.getStatus() == UserStatus.BLOCKED));
     }
 }

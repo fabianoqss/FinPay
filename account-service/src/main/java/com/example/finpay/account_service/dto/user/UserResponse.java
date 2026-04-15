@@ -1,4 +1,4 @@
-package com.example.finpay.account_service.dto;
+package com.example.finpay.account_service.dto.user;
 
 import com.example.finpay.account_service.entities.User;
 import com.example.finpay.account_service.enums.UserStatus;

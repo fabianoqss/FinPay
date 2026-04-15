@@ -1,8 +1,8 @@
 package com.example.finpay.account_service.services;
 
-import com.example.finpay.account_service.dto.UpdateUserRequest;
-import com.example.finpay.account_service.dto.UserRequest;
-import com.example.finpay.account_service.dto.UserResponse;
+import com.example.finpay.account_service.dto.user.UpdateUserRequest;
+import com.example.finpay.account_service.dto.user.UserRequest;
+import com.example.finpay.account_service.dto.user.UserResponse;
 import com.example.finpay.account_service.entities.User;
 import com.example.finpay.account_service.enums.UserStatus;
 import com.example.finpay.account_service.repositories.UserRepository;

@@ -1,9 +1,9 @@
 package com.example.finpay.account_service.controllers;
 
 
-import com.example.finpay.account_service.dto.UpdateUserRequest;
-import com.example.finpay.account_service.dto.UserRequest;
-import com.example.finpay.account_service.dto.UserResponse;
+import com.example.finpay.account_service.dto.user.UpdateUserRequest;
+import com.example.finpay.account_service.dto.user.UserRequest;
+import com.example.finpay.account_service.dto.user.UserResponse;
 import com.example.finpay.account_service.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

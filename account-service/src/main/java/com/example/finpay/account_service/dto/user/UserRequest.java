@@ -1,4 +1,4 @@
-package com.example.finpay.account_service.dto;
+package com.example.finpay.account_service.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
