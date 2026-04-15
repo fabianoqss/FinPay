@@ -1,6 +1,7 @@
 package com.example.finpay.account_service.controllers.handlers;
 
 import com.example.finpay.account_service.dto.user.ErrorResponse;
+import com.example.finpay.account_service.services.exceptions.AccountNotFoundException;
 import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,5 +31,11 @@ public class GlobalExceptionHandler {
         );
 
         return errors;
+    }
+
+    @ExceptionHandler(AccountNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleAccountNotFound(UserNotFoundException ex) {
+        return new ErrorResponse(ex.getMessage());
     }
 }
