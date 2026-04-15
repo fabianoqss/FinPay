@@ -5,7 +5,9 @@ import com.example.finpay.account_service.enums.UserStatus;
 
 import java.time.Instant;
 
-public record UserResponse( String email,
+public record UserResponse(
+        String id,
+        String email,
         String name,
          String cpf,
          UserStatus status,
@@ -14,7 +16,9 @@ public record UserResponse( String email,
 
 
     public static UserResponse from(User user){
-        return new UserResponse(user.getEmail(),
+        return new UserResponse(
+                user.getId(),
+                user.getEmail(),
                 user.getName(),
                 user.getCpf(),
                 user.getStatus(),
