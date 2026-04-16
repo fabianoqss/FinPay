@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+
+  redis:
+    image: redis:latest
+    container_name: redis-finpay
+    ports:
+      - "6379:6379"
+
+  account-service:
+    build: ./account-service
+    container_name: account-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_CLOUD_AZURE_COSMOS_ENDPOINT=${COSMOS_ENDPOINT}
+      - SPRING_CLOUD_AZURE_COSMOS_KEY=${COSMOS_KEY}
+      - SPRING_CLOUD_AZURE_COSMOS_DATABASE=finpay
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+    depends_on:
+      - redis
