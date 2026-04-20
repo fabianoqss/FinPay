@@ -1,5 +1,6 @@
 package com.example.finpay.payment_service.client.exceptions;
 
+import com.example.finpay.payment_service.services.exceptions.InsufficientBalanceException;
 import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
