@@ -1,8 +1,8 @@
 package com.example.finpay.payment_service.client;
 
 import com.example.finpay.payment_service.client.exceptions.FeignConfig;
-import com.example.finpay.payment_service.dto.AccountResponse;
-import com.example.finpay.payment_service.dto.UpdateBalanceRequest;
+import com.example.finpay.payment_service.client.dto.AccountResponse;
+import com.example.finpay.payment_service.client.dto.UpdateBalanceRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
