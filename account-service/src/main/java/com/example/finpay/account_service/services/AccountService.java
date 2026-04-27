@@ -31,7 +31,6 @@ public class AccountService {
     private final UserRepository userRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
-
     public AccountResponse createAccount(String userId, AccountRequest request){
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
