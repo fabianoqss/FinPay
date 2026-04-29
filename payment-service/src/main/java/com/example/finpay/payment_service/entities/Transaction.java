@@ -2,6 +2,7 @@ package com.example.finpay.payment_service.entities;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import com.example.finpay.payment_service.enums.BalanceOperation;
 import com.example.finpay.payment_service.enums.TransactionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class Transaction {
     private String destinationAccountId;
     private BigDecimal amount;
     private TransactionStatus transactionStatus;
+    private BalanceOperation balanceOperation;
     private String idempotencyKey;
     private String description;
     private Instant createdAt;

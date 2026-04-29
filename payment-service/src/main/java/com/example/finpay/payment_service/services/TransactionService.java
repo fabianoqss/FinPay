@@ -9,12 +9,14 @@ import com.example.finpay.payment_service.entities.Transaction;
 import com.example.finpay.payment_service.repositories.TransactionRepository;
 import com.example.finpay.payment_service.services.exceptions.AccountBlockedException;
 import com.example.finpay.payment_service.services.exceptions.InsufficientBalanceException;
+import com.example.finpay.payment_service.services.exceptions.PaymentNotFoundException;
 import com.example.finpay.payment_service.services.exceptions.SameAccountTransferException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -23,7 +25,7 @@ import java.util.Optional;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private AccountClient accountClient;
+    private final AccountClient accountClient;
     private final RedisTemplate<String, Object> redisTemplate;
 
     public PaymentResponse processPayment(PaymentRequest request){
@@ -45,14 +47,24 @@ public class TransactionService {
     }
 
 
-
+    Transaction transaction = new Transaction();
 
         return null;
     }
 
 
 
+    public PaymentResponse findById(String id){
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(()-> new PaymentNotFoundException("Payment Not Found ! "));
 
+        return PaymentResponse.from(transaction);
+    }
 
+    public List<PaymentResponse> findBySourceAccountId(String accountId){
+        List<Transaction> transactions = transactionRepository.findBySourceAccountId(accountId);
+
+        return transactions.stream().map((transaction) -> PaymentResponse.from(transaction)).toList();
+    }
 
 }
