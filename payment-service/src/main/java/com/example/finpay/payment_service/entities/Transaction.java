@@ -28,7 +28,6 @@ public class Transaction {
     private String destinationAccountId;
     private BigDecimal amount;
     private TransactionStatus transactionStatus;
-    private BalanceOperation balanceOperation;
     private String idempotencyKey;
     private String description;
     private Instant createdAt;

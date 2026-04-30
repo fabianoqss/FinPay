@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.client.dto;
+package com.example.finpay.payment_service.client.dto.payment;
 
 import com.example.finpay.payment_service.enums.BalanceOperation;
 
@@ -7,6 +7,5 @@ import java.math.BigDecimal;
 public record UpdateBalanceRequest(
         BigDecimal amount,
         BalanceOperation operation
-
 ) {
 }

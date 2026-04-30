@@ -13,7 +13,6 @@ public record PaymentResponse(
         String destinationAccountId,
         BigDecimal amount,
         TransactionStatus transactionStatus,
-        BalanceOperation balanceOperation,
         Instant createdAt,
         Instant processedAt
 ) {
@@ -25,7 +24,6 @@ public record PaymentResponse(
                transaction.getDestinationAccountId(),
                transaction.getAmount(),
                transaction.getTransactionStatus(),
-               transaction.getBalanceOperation(),
                transaction.getCreatedAt(),
                transaction.getProcessedAt()
        );
