@@ -89,10 +89,7 @@ public class TransactionService {
                 .amount(request.value())
                 .transactionStatus(TransactionStatus.COMPLETED)
                 .idempotencyKey(request.keyIdempotence())
-                .description("Transaction between accounts — Origin: "
-                        + request.originatingAccount()
-                        + " | Destination: "
-                        + request.destinationAccount())
+                .description(request.description())
                 .createdAt(Instant.now())
                 .processedAt(Instant.now())
                 .build();
