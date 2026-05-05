@@ -1,12 +1,11 @@
 package com.example.finpay.payment_service.services;
 
-import com.azure.json.implementation.jackson.core.JsonProcessingException;
-import com.example.finpay.payment_service.client.dto.account.AccountClient;
-import com.example.finpay.payment_service.client.dto.account.AccountResponse;
-import com.example.finpay.payment_service.client.dto.account.AccountStatus;
-import com.example.finpay.payment_service.client.dto.payment.PaymentRequest;
-import com.example.finpay.payment_service.client.dto.payment.PaymentResponse;
-import com.example.finpay.payment_service.client.dto.payment.UpdateBalanceRequest;
+import com.example.finpay.payment_service.client.account.AccountClient;
+import com.example.finpay.payment_service.client.account.AccountResponse;
+import com.example.finpay.payment_service.client.account.AccountStatus;
+import com.example.finpay.payment_service.client.account.UpdateBalanceRequest;
+import com.example.finpay.payment_service.dto.PaymentRequest;
+import com.example.finpay.payment_service.dto.PaymentResponse;
 import com.example.finpay.payment_service.entities.Transaction;
 import com.example.finpay.payment_service.enums.BalanceOperation;
 import com.example.finpay.payment_service.enums.TransactionStatus;
@@ -52,7 +51,7 @@ public class TransactionService {
                 .findById(request.userOriginatingId(), request.originatingAccount());
 
         AccountResponse accountDestination = accountClient
-                .findById(request.userDestinationId(), request.destinationAccount()); // ← corrigido
+                .findById(request.userDestinationId(), request.destinationAccount());
 
         if (Objects.equals(accountOrigin.id(), accountDestination.id())) {
             throw new SameAccountTransferException("The accounts are the same!");
@@ -106,18 +105,16 @@ public class TransactionService {
         return PaymentResponse.from(saved);
     }
 
-
-    public PaymentResponse findById(String id){
+    public PaymentResponse findById(String id) {
         Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(()-> new PaymentNotFoundException("Payment Not Found ! "));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment Not Found !"));
 
         return PaymentResponse.from(transaction);
     }
 
-    public List<PaymentResponse> findBySourceAccountId(String accountId){
+    public List<PaymentResponse> findBySourceAccountId(String accountId) {
         List<Transaction> transactions = transactionRepository.findBySourceAccountId(accountId);
 
-        return transactions.stream().map((transaction) -> PaymentResponse.from(transaction)).toList();
+        return transactions.stream().map(PaymentResponse::from).toList();
     }
-
 }

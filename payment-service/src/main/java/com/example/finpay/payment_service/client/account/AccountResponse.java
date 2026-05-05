@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.client.dto.account;
+package com.example.finpay.payment_service.client.account;
 
 import java.math.BigDecimal;
 import java.time.Instant;

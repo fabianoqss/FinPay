@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.client.dto.payment;
+package com.example.finpay.payment_service.client.account;
 
 import com.example.finpay.payment_service.enums.BalanceOperation;
 

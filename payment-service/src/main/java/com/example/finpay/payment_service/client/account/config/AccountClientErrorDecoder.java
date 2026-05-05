@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.client.exceptions;
+package com.example.finpay.payment_service.client.account.config;
 
 import com.example.finpay.payment_service.services.exceptions.AccountBlockedException;
 import com.example.finpay.payment_service.services.exceptions.InsufficientBalanceException;
@@ -13,15 +13,9 @@ public class AccountClientErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
         return switch (response.status()) {
-            case 404 -> new AccountNotFoundException(
-                    "Account not found"
-            );
-            case 409 -> new AccountBlockedException(
-                    "Account is blocked"
-            );
-            case 402 -> new InsufficientBalanceException(
-                    "Insufficient balance"
-            );
+            case 404 -> new AccountNotFoundException("Account not found");
+            case 409 -> new AccountBlockedException("Account is blocked");
+            case 402 -> new InsufficientBalanceException("Insufficient balance");
             default -> new FeignException.FeignClientException(
                     response.status(),
                     "Unexpected error calling Account Service",

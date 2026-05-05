@@ -1,7 +1,6 @@
-package com.example.finpay.payment_service.client.dto.payment;
+package com.example.finpay.payment_service.dto;
 
 import com.example.finpay.payment_service.entities.Transaction;
-import com.example.finpay.payment_service.enums.BalanceOperation;
 import com.example.finpay.payment_service.enums.TransactionStatus;
 
 import java.math.BigDecimal;
@@ -18,15 +17,14 @@ public record PaymentResponse(
 ) {
 
     public static PaymentResponse from(Transaction transaction) {
-       return new PaymentResponse(
-               transaction.getId(),
-               transaction.getSourceAccountId(),
-               transaction.getDestinationAccountId(),
-               transaction.getAmount(),
-               transaction.getTransactionStatus(),
-               transaction.getCreatedAt(),
-               transaction.getProcessedAt()
-       );
-
-   }
+        return new PaymentResponse(
+                transaction.getId(),
+                transaction.getSourceAccountId(),
+                transaction.getDestinationAccountId(),
+                transaction.getAmount(),
+                transaction.getTransactionStatus(),
+                transaction.getCreatedAt(),
+                transaction.getProcessedAt()
+        );
+    }
 }

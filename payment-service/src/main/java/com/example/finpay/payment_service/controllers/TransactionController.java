@@ -1,7 +1,7 @@
 package com.example.finpay.payment_service.controllers;
 
-import com.example.finpay.payment_service.client.dto.payment.PaymentRequest;
-import com.example.finpay.payment_service.client.dto.payment.PaymentResponse;
+import com.example.finpay.payment_service.dto.PaymentRequest;
+import com.example.finpay.payment_service.dto.PaymentResponse;
 import com.example.finpay.payment_service.services.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

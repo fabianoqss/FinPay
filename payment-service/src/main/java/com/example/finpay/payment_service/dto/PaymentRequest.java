@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.client.dto.payment;
+package com.example.finpay.payment_service.dto;
 
 import java.math.BigDecimal;
 
@@ -10,4 +10,5 @@ public record PaymentRequest(
         String destinationAccount,
         BigDecimal value,
         String description
-) {}
+) {
+}
