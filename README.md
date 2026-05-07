@@ -271,8 +271,8 @@ spring:
 
 - [x] Project base structure
 - [x] Account Service — entities and configuration
-- [ ] Account Service — complete endpoints
-- [ ] Payment Service — transfers with idempotency
+- [x] Account Service — complete endpoints
+- [x] Payment Service — transfers with idempotency
 - [ ] Notification Service — events and notifications
 - [ ] Audit Service — immutable records
 - [ ] Chat Service — FinBot with function calling
