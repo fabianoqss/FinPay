@@ -100,7 +100,7 @@ An authenticated user can:
 | Service | Port | Responsibility | Status |
 |---|---|---|---|
 | **account-service** | 8081 | Users, accounts and transaction history | 🚧 In development |
-| **payment-service** | 8082 | Transfer processing and idempotency | 📋 Planned |
+| **payment-service** | 8082 | Transfer processing and idempotency | 🚧 In development |
 | **notification-service** | 8083 | Confirmation and failure notifications | 📋 Planned |
 | **audit-service** | 8084 | Immutable operation records for compliance | 📋 Planned |
 | **chat-service** | 8085 | FinBot — financial chatbot with Azure OpenAI | 📋 Planned |
