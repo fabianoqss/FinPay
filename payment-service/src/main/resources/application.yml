@@ -23,7 +23,7 @@ spring:
       cosmos:
         endpoint: ${AZURE_COSMOS_ENDPOINT}
         key: ${AZURE_COSMOS_KEY}
-        database: ${AZURE_COSMOS_DATABASE:finpay}
+        database: ${AZURE_COSMOS_DATABASE:payment-db}
         populate-query-metrics: false
 
 feign:
