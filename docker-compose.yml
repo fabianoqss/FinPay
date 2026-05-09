@@ -21,3 +21,19 @@ services:
       - SPRING_DATA_REDIS_PORT=6379
     depends_on:
       - redis
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_CLOUD_AZURE_COSMOS_ENDPOINT=${COSMOS_ENDPOINT}
+      - SPRING_CLOUD_AZURE_COSMOS_KEY=${COSMOS_KEY}
+      - SPRING_CLOUD_AZURE_COSMOS_DATABASE=payment-db
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_CLOUD_AZURE_SERVICEBUS_CONNECTION_STRING=${SERVICE_BUS_CONNECTION_STRING}
+    depends_on:
+      - redis
+      - account-service

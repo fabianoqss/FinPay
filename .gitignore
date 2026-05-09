@@ -7,3 +7,6 @@ docker-compose.override.yml
 # Sistema
 .DS_Store
 Thumbs.db
+
+#Finpay_MD-Claude-Code
+FINPAY_CONTEXT.md
