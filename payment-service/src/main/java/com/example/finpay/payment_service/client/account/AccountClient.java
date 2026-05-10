@@ -1,6 +1,5 @@
 package com.example.finpay.payment_service.client.account;
 
-import com.example.finpay.payment_service.client.account.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;

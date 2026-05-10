@@ -1,7 +1,7 @@
-package com.example.finpay.payment_service.client.account.config;
+package com.example.finpay.payment_service.client.account;
 
-import com.example.finpay.payment_service.services.exceptions.AccountBlockedException;
-import com.example.finpay.payment_service.services.exceptions.InsufficientBalanceException;
+import com.example.finpay.payment_service.exceptions.AccountBlockedException;
+import com.example.finpay.payment_service.exceptions.InsufficientBalanceException;
 import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;

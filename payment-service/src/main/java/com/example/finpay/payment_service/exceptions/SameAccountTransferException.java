@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.services.exceptions;
+package com.example.finpay.payment_service.exceptions;
 
 public class SameAccountTransferException extends RuntimeException {
     public SameAccountTransferException(String message) {

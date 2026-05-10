@@ -1,6 +1,6 @@
 package com.example.finpay.payment_service.controllers;
 
-import com.example.finpay.payment_service.services.exceptions.*;
+import com.example.finpay.payment_service.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

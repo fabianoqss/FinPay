@@ -4,7 +4,7 @@ import com.example.finpay.payment_service.dto.PaymentRequest;
 import com.example.finpay.payment_service.dto.PaymentResponse;
 import com.example.finpay.payment_service.enums.TransactionStatus;
 import com.example.finpay.payment_service.services.TransactionService;
-import com.example.finpay.payment_service.services.exceptions.PaymentNotFoundException;
+import com.example.finpay.payment_service.exceptions.PaymentNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

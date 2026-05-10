@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.client.account.config;
+package com.example.finpay.payment_service.client.account;
 
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;

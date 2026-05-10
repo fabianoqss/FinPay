@@ -1,4 +1,4 @@
-package com.example.finpay.payment_service.services.exceptions;
+package com.example.finpay.payment_service.exceptions;
 
 public class InsufficientBalanceException extends RuntimeException {
     public InsufficientBalanceException(String message) {
