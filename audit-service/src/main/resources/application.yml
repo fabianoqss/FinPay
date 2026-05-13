@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: audit-service
+
+server:
+  port: ${SERVER_PORT:8082}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+azure:
+  tables:
+    connection-string: ${AZURE_STORAGE_CONNECTION_STRING}
+    table-name: ${AZURE_TABLE_NAME:auditRecords}

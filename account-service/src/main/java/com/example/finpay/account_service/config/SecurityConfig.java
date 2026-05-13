@@ -15,7 +15,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // ← libera todos os endpoints
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
