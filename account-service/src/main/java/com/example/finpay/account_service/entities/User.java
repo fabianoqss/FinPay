@@ -27,6 +27,7 @@ public class User {
 
     private String name;
     private String cpf;
+    private String passwordHash;
     private UserStatus status;
     private Instant createdAt;
     private Instant updatedAt;

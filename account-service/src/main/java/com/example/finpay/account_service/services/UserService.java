@@ -8,6 +8,7 @@ import com.example.finpay.account_service.enums.UserStatus;
 import com.example.finpay.account_service.repositories.UserRepository;
 import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse findById(String id){
         User user = userRepository.findById(id)
@@ -50,6 +52,7 @@ public class UserService {
                 .email(userRequest.email())
                 .name(userRequest.name())
                 .cpf(userRequest.cpf())
+                .passwordHash(passwordEncoder.encode(userRequest.password()))
                 .status(UserStatus.ACTIVE)
                 .createdAt(Instant.now())
                 .updatedAt(Instant.now())

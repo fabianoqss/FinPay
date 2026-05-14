@@ -16,6 +16,10 @@ public record UserRequest(
 
         @NotBlank(message = "CPF is required")
         @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF must follow the format 000.000.000-00")
-        String cpf
+        String cpf,
+
+        @NotBlank(message = "Password is required")
+        @Size(min = 8, message = "Password must be at least 8 characters")
+        String password
 ) {
 }

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -28,12 +29,16 @@ public class UserServiceTest {
     @Mock
     private UserRepository repository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserService userService;
 
     @Test
     void shouldCreateUserWithActiveStatus() {
-        UserRequest request = new UserRequest("Fabiano", "fabiano@email.com", "123.456.789-00");
+        UserRequest request = new UserRequest("Fabiano", "fabiano@email.com", "123.456.789-00", "senha123");
+        when(passwordEncoder.encode(any())).thenReturn("hashed-password");
         when(repository.save(any())).thenAnswer(i -> i.getArgument(0));
 
         UserResponse response = userService.createUser(request);
