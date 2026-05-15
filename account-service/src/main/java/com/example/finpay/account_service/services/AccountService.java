@@ -44,7 +44,6 @@ public class AccountService {
                 .updatedAt(Instant.now())
                 .build();
 
-        accountRepository.save(account);
         Account savedAccount = accountRepository.save(account);
         return AccountResponse.from(savedAccount);
     }
