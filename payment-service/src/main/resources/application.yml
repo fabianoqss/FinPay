@@ -26,6 +26,9 @@ spring:
         database: ${AZURE_COSMOS_DATABASE:payment-db}
         populate-query-metrics: false
 
+      servicebus:
+        connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
+
 feign:
   client:
     config:

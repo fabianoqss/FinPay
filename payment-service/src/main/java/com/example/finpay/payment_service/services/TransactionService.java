@@ -9,6 +9,7 @@ import com.example.finpay.payment_service.dto.PaymentResponse;
 import com.example.finpay.payment_service.entities.Transaction;
 import com.example.finpay.payment_service.enums.BalanceOperation;
 import com.example.finpay.payment_service.enums.TransactionStatus;
+import com.example.finpay.payment_service.events.PaymentCompletedEvent;
 import com.example.finpay.payment_service.repositories.TransactionRepository;
 import com.example.finpay.payment_service.exceptions.AccountBlockedException;
 import com.example.finpay.payment_service.exceptions.InsufficientBalanceException;
@@ -34,6 +35,7 @@ public class TransactionService {
     private final AccountClient accountClient;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
+    private final PaymentEventPublisher paymentEventPublisher;
 
     public PaymentResponse processPayment(PaymentRequest request) {
 
@@ -94,6 +96,15 @@ public class TransactionService {
                 .build();
 
         Transaction saved = transactionRepository.save(transaction);
+
+        paymentEventPublisher.publishPaymentCompleted(new PaymentCompletedEvent(
+                saved.getId(),
+                saved.getSourceAccountId(),
+                saved.getDestinationAccountId(),
+                saved.getAmount(),
+                saved.getTransactionStatus(),
+                saved.getProcessedAt()
+        ));
 
         try {
             String json = objectMapper.writeValueAsString(PaymentResponse.from(saved));
