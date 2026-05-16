@@ -4,7 +4,10 @@ package com.example.finpay.account_service.services;
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
 import com.example.finpay.account_service.dto.account.BalanceResponse;
+import com.example.finpay.account_service.dto.account.UpdateBalanceRequest;
 import com.example.finpay.account_service.dto.account.UserWithAccountsResponse;
+import com.example.finpay.account_service.enums.BalanceOperation;
+import com.example.finpay.account_service.services.exceptions.InsufficientBalanceException;
 import com.example.finpay.account_service.dto.user.UserResponse;
 import com.example.finpay.account_service.entities.Account;
 import com.example.finpay.account_service.entities.User;
@@ -109,5 +112,26 @@ public class AccountService {
         account.setStatus(AccountStatus.ACTIVE);
         account.setUpdatedAt(Instant.now());
         accountRepository.save(account);
+    }
+
+    public void updateBalance(String accountId, UpdateBalanceRequest request) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
+
+        if (request.operation() == BalanceOperation.DEBIT) {
+            if (account.getBalance().compareTo(request.amount()) < 0) {
+                throw new InsufficientBalanceException(
+                        "Account " + accountId + " has insufficient balance for this operation"
+                );
+            }
+            account.setBalance(account.getBalance().subtract(request.amount()));
+        } else {
+            account.setBalance(account.getBalance().add(request.amount()));
+        }
+
+        account.setUpdatedAt(Instant.now());
+        accountRepository.save(account);
+
+        redisTemplate.delete("balance:" + accountId);
     }
 }

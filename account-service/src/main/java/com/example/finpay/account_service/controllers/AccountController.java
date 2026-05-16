@@ -4,6 +4,7 @@ package com.example.finpay.account_service.controllers;
 import com.example.finpay.account_service.dto.account.AccountRequest;
 import com.example.finpay.account_service.dto.account.AccountResponse;
 import com.example.finpay.account_service.dto.account.BalanceResponse;
+import com.example.finpay.account_service.dto.account.UpdateBalanceRequest;
 import com.example.finpay.account_service.dto.account.UserWithAccountsResponse;
 import com.example.finpay.account_service.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -83,6 +84,20 @@ public class AccountController {
     public ResponseEntity<BalanceResponse> getBalance(@PathVariable String accountId) {
         BalanceResponse response = accountService.getBalance(accountId);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Update account balance", description = "Debits or credits the account balance. Called internally by payment-service.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Balance updated successfully"),
+            @ApiResponse(responseCode = "402", description = "Insufficient balance for debit"),
+            @ApiResponse(responseCode = "404", description = "Account not found")
+    })
+    @PatchMapping("/{accountId}/balance")
+    public ResponseEntity<Void> updateBalance(
+            @PathVariable String accountId,
+            @RequestBody @Valid UpdateBalanceRequest request) {
+        accountService.updateBalance(accountId, request);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Block account", description = "Changes the account status to BLOCKED")

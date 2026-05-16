@@ -2,6 +2,7 @@ package com.example.finpay.account_service.controllers.handlers;
 
 import com.example.finpay.account_service.dto.user.ErrorResponse;
 import com.example.finpay.account_service.services.exceptions.AccountNotFoundException;
+import com.example.finpay.account_service.services.exceptions.InsufficientBalanceException;
 import com.example.finpay.account_service.services.exceptions.InvalidCredentialsException;
 import com.example.finpay.account_service.services.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccountNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleAccountNotFound(UserNotFoundException ex) {
+        return new ErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
+    public ErrorResponse handleInsufficientBalance(InsufficientBalanceException ex) {
         return new ErrorResponse(ex.getMessage());
     }
 }
